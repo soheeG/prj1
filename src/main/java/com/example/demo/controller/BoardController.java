@@ -43,4 +43,28 @@ public class BoardController {
 		// 4. foward / redirect
 		return "get";
 	}
+	
+	@GetMapping("/modify/{id}")
+	public String modify(@PathVariable("id") Integer id, Model model) {
+		
+		model.addAttribute("board", service.getBoard(id));
+		return "modify";
+	}
+	
+	@RequestMapping(value = "/modify/{id}" , method = RequestMethod.POST)
+	@PostMapping("/midify/{id}")
+	public String modifyProcess(Board board, RidirectAttributes rttr) {
+
+		boolean ok = service.modify(board);
+		
+		if (ok) {
+			// 해당 게시물 보기로 리디렉션
+			rttr.addAttribute("success", "success");
+			return "redirect:/id/" + board.getId();
+		} else {
+			// 수정 form 으로 리디렉션
+			rttr.addAttribute("fail", "fail");
+			return "redirect:/modify/" + board.getId();
+		}
+	}
 }

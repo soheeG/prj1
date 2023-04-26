@@ -27,5 +27,16 @@ public interface BoardMapper {
 			""")
 	Board selectById(Integer id);
 
+	@Update("""
+			UPDATE Board
+			SET
+				title = #{title},
+				body = #{body},
+				writer = #{writer}
+			WHERE 
+				id = #{id}
+			""")
+	int update(Board board);
+
 	
 }

@@ -23,4 +23,10 @@ public class BoardService {
 		// TODO Auto-generated method stub
 		return mapper.selectById(id);
 	}
+
+	public boolean modify(Board board) {
+		int cnt = mapper.update(board);
+		
+		return cnt == 1;
+	}
 }
