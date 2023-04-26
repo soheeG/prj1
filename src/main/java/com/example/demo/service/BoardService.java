@@ -8,25 +8,29 @@ import org.springframework.stereotype.*;
 import com.example.demo.domain.*;
 import com.example.demo.mapper.*;
 
-@Service 
+@Service
 public class BoardService {
-	
+
 	@Autowired
 	private BoardMapper mapper;
-	
+
 	public List<Board> listBoard() {
 		List<Board> list = mapper.selectAll();
 		return list;
 	}
 
 	public Board getBoard(Integer id) {
-		// TODO Auto-generated method stub
 		return mapper.selectById(id);
 	}
 
 	public boolean modify(Board board) {
 		int cnt = mapper.update(board);
 		
+		return cnt == 1;
+	}
+
+	public boolean remove(Integer id) {
+		int cnt = mapper.deleteById(id);
 		return cnt == 1;
 	}
 }
