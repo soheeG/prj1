@@ -59,11 +59,17 @@ public class BoardController {
 		
 		if (ok) {
 			// 해당 게시물 보기로 리디렉션
-			rttr.addAttribute("success", "success");
+//			rttr.addAttribute("success", "success");
+			
+			rttr.addFlashAttribute("message", board.getId() + "번 게시물이 수정되었습니다.");
+			
 			return "redirect:/id/" + board.getId();
 		} else {
 			// 수정 form 으로 리디렉션
-			rttr.addAttribute("fail", "fail");
+//			rttr.addAttribute("fail", "fail");
+			
+			rttr.addFlashAttribute("message", board.getId() + "번 게시물이 수정되지 않았습니다.");
+
 			return "redirect:/modify/" + board.getId();
 		}
 	}
@@ -72,7 +78,12 @@ public class BoardController {
 	public String remove(Integer id, RedirectAttributes rttr) {
 		boolean ok = service.remove(id);
 		if (ok) {
-			rttr.addAttribute("success", "remove");
+			// query string에 추가
+//			rttr.addAttribute("success", "remove");
+			
+			// model에 추가
+			rttr.addFlashAttribute("message", id + "번 게시물이 삭제되었습니다.");
+			
 			return "redirect:/list";
 		} else {
 			return "redirect:/id/" + id;
@@ -93,8 +104,10 @@ public class BoardController {
 		// 3.
 		// 4.
 		if (ok) {
+			rttr.addFlashAttribute("message", board.getId() + "번 게시물이 등록되었습니다.");
 			return "redirect:/id/" + board.getId();
 		} else {
+			rttr.addFlashAttribute("message","게시물 등록 중 문제가 발생했습니다.");
 			rttr.addFlashAttribute("board", board);
 			return "redirect:/add";
 		}
