@@ -44,5 +44,12 @@ public interface BoardMapper {
 			""")
 	int deleteById(Integer id);
 
+	@Insert("""
+			INSERT INTO Board (title, body, writer)
+			VALUES (#{title}, #{body}, #{writer})
+			""")
+	@Options(useGeneratedKeys = true, keyProperty = "id")
+	int insert(Board board);
+
 	
 }
