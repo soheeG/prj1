@@ -31,14 +31,15 @@
 					
 					<!-- 그림 파일 출력 -->
 					<div class="mb-3">
-						<c:forEach items="${board.fileName }" var="fileName">
-							<div>
-								<%-- http://localhost:8080/image/ --%>
-								<%-- http://localhost:8080/image/게시물번호 --%>
-								<img src="http://localhost:8080/image/${board.id }/${fileName}" alt="" />
+						<c:forEach items="${board.fileName }" var="fileName" >
+							<div class="mb-3">
+								<%-- http://localhost:8080/image/4122/slamdunk.jfif --%>
+								<%-- http://localhost:8080/image/게시물번호/fileName --%>
+								<img class="img-thumbnail img-fluid" src="http://localhost:8080/image/${board.id }/${fileName}" alt="" />
 							</div>
 						</c:forEach>
 					</div>
+					
 					
 					<div class="mb-3">
 						<label for="" class="form-label">본문</label>
