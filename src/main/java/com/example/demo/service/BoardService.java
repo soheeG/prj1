@@ -5,12 +5,14 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 import org.springframework.web.multipart.*;
 
 import com.example.demo.domain.*;
 import com.example.demo.mapper.*;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class BoardService {
 
 	@Autowired
@@ -40,6 +42,10 @@ public class BoardService {
 		
 		// 게시물 insert
 		int cnt = mapper.insert(board);
+		
+		if (true) {
+			throw new Exception("테스트용... 지울 것 임");
+		}
 		
 		for (MultipartFile file : files) {
 			if (file.getSize() > 0) {
