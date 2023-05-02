@@ -43,10 +43,6 @@ public class BoardService {
 		// 게시물 insert
 		int cnt = mapper.insert(board);
 		
-		if (true) {
-			throw new Exception("테스트용... 지울 것 임");
-		}
-		
 		for (MultipartFile file : files) {
 			if (file.getSize() > 0) {
 				System.out.println(file.getOriginalFilename());

@@ -21,10 +21,16 @@ public interface BoardMapper {
 	List<Board> selectAll();
 
 	@Select("""
-			SELECT *
-			FROM Board
-			WHERE id = #{id}
+			SELECT b.id, 
+			       b.title,
+			       b.body,
+			       b.inserted,
+			       b.writer,
+			       f.fileName
+			FROM Board b LEFT JOIN FileName f ON b.id = f.boardId
+			WHERE b.id = #{id}
 			""")
+	@ResultMap("boardResultMap")
 	Board selectById(Integer id);
 
 	@Update("""
@@ -103,7 +109,7 @@ public interface BoardMapper {
 
 	@Insert("""
 			INSERT INTO FileName (boardId, fileName)
-			VALUES (#{baordId}, #{fileName})
+			VALUES (#{boardId}, #{fileName})
 			""")
 	void insertFileName(Integer boardId, String fileName);
 	
