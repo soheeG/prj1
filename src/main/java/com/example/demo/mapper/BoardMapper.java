@@ -21,12 +21,13 @@ public interface BoardMapper {
 	List<Board> selectAll();
 
 	@Select("""
-			SELECT b.id, 
-			       b.title,
-			       b.body,
-			       b.inserted,
-			       b.writer,
-			       f.fileName
+			SELECT 
+				b.id,
+				b.title,
+				b.body,
+				b.inserted,
+				b.writer,
+				f.fileName
 			FROM Board b LEFT JOIN FileName f ON b.id = f.boardId
 			WHERE b.id = #{id}
 			""")
@@ -113,8 +114,8 @@ public interface BoardMapper {
 			INSERT INTO FileName (boardId, fileName)
 			VALUES (#{boardId}, #{fileName})
 			""")
-	void insertFileName(Integer boardId, String fileName);
-	
+	Integer insertFileName(Integer boardId, String fileName);
+
 	@Select("""
 			SELECT fileName FROM FileName
 			WHERE boardId = #{boardId}
@@ -122,9 +123,17 @@ public interface BoardMapper {
 	List<String> selectFileNamesByBoardId(Integer boardId);
 
 	@Delete("""
-			DELETE FROM FileName
+			DELETE FROM FileName 
 			WHERE boardId = #{boardId}
 			""")
 	void deleteFileNameByBoardId(Integer boardId);
+
+	@Delete("""
+			DELETE FROM FileName
+			WHERE 	boardId = #{boardId} 
+				AND fileName = #{fileName}
+			""")
+
+	void deleteFileNameByBoardIdAndFileName(Integer boardId, String fileName);
 	
 }

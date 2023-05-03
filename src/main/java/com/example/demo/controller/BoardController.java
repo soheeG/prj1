@@ -32,7 +32,7 @@ public class BoardController {
 		// 2. business logic 처리
 		// List<Board> list = service.listBoard(); // 페이지 처리 전
 		Map<String, Object> result = service.listBoard(page, search, type); // 페이지 처리
-		
+
 		// 3. add attribute
 //		model.addAttribute("boardList", result.get("boardList"));
 //		model.addAttribute("pageInfo", result.get("pageInfo"));
@@ -61,9 +61,11 @@ public class BoardController {
 
 //	@RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
 	@PostMapping("/modify/{id}")
-	public String modifyProcess(Board board, RedirectAttributes rttr) {
-
-		boolean ok = service.modify(board);
+	public String modifyProcess(Board board,
+			@RequestParam(value = "removeFiles", required = false) List<String> removeFileNames,
+			RedirectAttributes rttr) {
+		
+		boolean ok = service.modify(board, removeFileNames);
 
 		if (ok) {
 			// 해당 게시물 보기로 리디렉션
@@ -102,7 +104,7 @@ public class BoardController {
 	@PostMapping("add")
 	public String addProcess(
 			@RequestParam("files") MultipartFile[] files,
-			Board board, RedirectAttributes rttr) throws Exception{
+			Board board, RedirectAttributes rttr) throws Exception {
 		// 새 게시물 db에 추가
 		// 1.
 		// 2.
