@@ -20,6 +20,9 @@ public class BoardService {
 	@Autowired
 	private S3Client s3;
 	
+	@Value("${aws.s3.bucketName}")
+	private String bucketName;
+	
 	@Autowired
 	private BoardMapper mapper;
 

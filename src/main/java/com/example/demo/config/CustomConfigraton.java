@@ -20,11 +20,11 @@ public class CustomConfigraton {
 	@Bean
 	public S3Client s3client() {
 		
-		AwsBasicCredentials credentials = AwsBasicCredentials.create(acessKeyId, secretAccessKey);
+		AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKeyId, secretAccessKey);
 		AwsCredentialsProvider provider = StaticCredentialsProvider.create(credentials);
 		
 		S3Client s3client = S3Client.builder()
-				.credentialsProvider(null)
+				.credentialsProvider(provider)
 				.region(Region.AP_NORTHEAST_2)
 				.build();
 		
