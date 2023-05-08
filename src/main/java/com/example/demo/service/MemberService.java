@@ -45,4 +45,9 @@ public class MemberService {
 		return cnt == 1;
 		
 	}
+
+	public boolean modify(Member member) {
+		mapper.update(member);
+		return false;
+	}
 }

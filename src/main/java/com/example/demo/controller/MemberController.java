@@ -66,4 +66,17 @@ public class MemberController {
 			return "redirect:/member/info?id" + member.getId();
 		}
 	}
+	
+	@GetMapping("modify")
+	public void modifyForm(String id,  Model model) {
+		Member member = service.get(id);
+		model.addAttribute("member", member);
+//		model.addAttribute(service.get(id));
+		
+	}
+	
+	@PostMapping("modify")
+	public void modifyProcess(Member member, RedirectAttributes rttr) {
+		boolean ok = service.modify(member);
+	}
 }
