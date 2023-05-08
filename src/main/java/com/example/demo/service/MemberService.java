@@ -46,8 +46,15 @@ public class MemberService {
 		
 	}
 
-	public boolean modify(Member member) {
-		mapper.update(member);
-		return false;
+	public boolean modify(Member member, String oldPassword) {
+		Member oldMember = mapper.selectById(member.getId());
+		
+		int cnt = 0;
+		if (oldMember.getPassword().equals(oldPassword)) {
+			
+			cnt = mapper.update(oldMember);
+		}
+		
+		return cnt == 1;
 	}
 }

@@ -43,5 +43,5 @@ public interface MemberMapper {
 			WHERE 
 				id = #{id}
 			""")
-	void update(Member member);
+	Integer update(Member member);
 }
