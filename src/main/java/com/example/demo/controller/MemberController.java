@@ -53,8 +53,8 @@ public class MemberController {
 	}
 	
 	@PostMapping("remove")
-	public void remove(String id) {
+	public void remove(Member member) {
 		
-		service.remove(id);
+		service.remove(member);
 	}
 }
