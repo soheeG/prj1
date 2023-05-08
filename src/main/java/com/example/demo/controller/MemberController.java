@@ -79,7 +79,6 @@ public class MemberController {
 	public String modifyProcess(Member member, String oldPassword, RedirectAttributes rttr) {
 		boolean ok = service.modify(member, oldPassword);
 		
-		
 		if (ok) {
 			rttr.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
 			return "redirect:/member/info?id=" + member.getId();
