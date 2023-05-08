@@ -28,4 +28,10 @@ public interface MemberMapper {
 			WHERE id = #{id}
 			""")
 	Member selectById(String id);
+
+	@Delete("""
+			DELETE FROM Member
+			WHERE id = #{id}
+			""")
+	Integer deleteById(String id);
 }
