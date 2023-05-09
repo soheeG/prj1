@@ -63,10 +63,10 @@
 	</div>
 </nav>
 
-<%-- <div>
+<div>
 	<sec:authentication property="principal"/>
 </div>
-
+<%-- 
 <div>
 	<sec:authorize access="isAuthenticated()" var="loggedIn">
 		로그인한 상태
