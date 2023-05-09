@@ -43,7 +43,8 @@ public class CustomConfigraton {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		
-		http.formLogin(Customizer.withDefaults());
+//		http.formLogin(Customizer.withDefaults());
+		http.formLogin().loginPage("/memver/login");
 		
 		return http.build();
 	}
