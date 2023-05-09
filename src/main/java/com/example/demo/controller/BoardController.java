@@ -56,7 +56,7 @@ public class BoardController {
 	}
 
 	@GetMapping("/modify/{id}")
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated() and @customSecurityChecker.checkBoardWriter(authentication, #id)")
 	public String modifyForm(@PathVariable("id") Integer id, Model model) {
 		model.addAttribute("board", service.getBoard(id));
 		return "modify";
@@ -66,9 +66,9 @@ public class BoardController {
 	@PostMapping("/modify/{id}")
 	@PreAuthorize("isAuthenticated() and @customSecurityChecker.checkBoardWriter(authentication, #board.id)")
 	
-	// 수정하려는 게시물의 id : board.getId
+	// 수정하려는 게시물의 id : board.id
 	public String modifyProcess(Board board,
-			@RequestParam(value="files", required=false) MultipartFile[] addFiles,
+			@RequestParam(value = "files", required = false) MultipartFile[] addFiles,
 			@RequestParam(value = "removeFiles", required = false) List<String> removeFileNames,
 			RedirectAttributes rttr) throws Exception {
 		
@@ -115,7 +115,7 @@ public class BoardController {
 	public String addProcess(
 			@RequestParam("files") MultipartFile[] files,
 			Board board, RedirectAttributes rttr,
-				Authentication authentication) throws Exception {
+			Authentication authentication) throws Exception {
 		// 새 게시물 db에 추가
 		// 1.
 		// 2.
