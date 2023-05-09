@@ -44,7 +44,8 @@ public class CustomConfigraton {
 		http.csrf().disable();
 		
 //		http.formLogin(Customizer.withDefaults());
-		http.formLogin().loginPage("/memver/login");
+		http.formLogin().loginPage("/member/login");
+		http.logout().logoutUrl("/member/logout");
 		
 		return http.build();
 	}
