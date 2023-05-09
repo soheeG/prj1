@@ -22,9 +22,11 @@
 					<a class="nav-link ${current eq 'add' ? 'active' : '' }" href="/add">글작성</a>
 				</li>
 				</sec:authorize>
+				<sec:authorize access="isAnonymous()">
 				<li class="nav-item">
 					<a class="nav-link ${current eq 'signup' ? 'active' : '' }" href="/member/signup">회원가입</a>
 				</li>
+				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 				<li class="nav-item">
 					<a class="nav-link ${current eq 'memberList' ? 'active' : '' }" href="/member/list">회원목록</a>
