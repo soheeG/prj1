@@ -54,7 +54,7 @@ public class MemberController {
 	
 	// 경로: /member/info?id=asdf
 	@GetMapping("info")
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated() and (authentication.name eq #id)")
 	public void info(String id, Model model) {
 		
 		Member member = service.get(id);
@@ -62,7 +62,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("remove")
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated() and (authentication.name eq #member.id)")
 	public String remove(Member member, RedirectAttributes rttr) {
 		
 		boolean ok = service.remove(member);
