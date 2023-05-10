@@ -34,6 +34,16 @@
 					<div class="mb-3">
 						<label for="inputPasswordCheck" class="form-label">패스워드 확인</label>
 						<input id="inputPasswordCheck" type="password" class="form-control" />
+					
+						<div id="passwordSuccessText" class="d-none form-text text-primary">
+							<i class="fa-solid fa-check"></i>
+							패스워드가 일치 합니다.
+						</div>
+						<div id="passwordFailText" class="d-none form-text text-danger">
+							<i class="fa-solid fa-triangle-exclamation"></i>
+							패스워드가 일치하지 않습니다.
+						</div>
+					
 					</div>
 					<div class="mb-3">
 						<label for="inputNickName" class="form-label">별명</label>
@@ -53,29 +63,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-	<script>
-		console.log("hell js");
-		
-		// 패스워드, 패스워드 체크 인풋에 키업 이벤트 발생하면
-		$("#inputPassword, #inputPasswordCheck").keyup(function() {
-			// 패스워드에 입력한 값
-			const pw1 = $("#inputPassword").val();
-			//패스워드 확인에 입력한 값이 
-			const pw2 = $("#inputPasswordCheck").val();
-			
-			if (pw1 === pw2) {
-				// 같으면 submit 버튼 활성화
-				$("#signupSubmit").removeClass("disabled");
-				// 패스워드가 같다는 메세지 출력
-				
-			} else {
-			// 그렇지 않으면 submit 버튼 비활성화
-			$("#signupSubmit").addClass("disabled");
-			// 패스워드가 다르다는 메세지 출력
-			}
-		})
-		
-	</script>
+	<script src="/js/member/signup.js"></script>
 
 </body>
 </html>
