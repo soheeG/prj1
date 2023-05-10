@@ -27,7 +27,7 @@
 					<a class="nav-link ${current eq 'signup' ? 'active' : '' }" href="/member/signup">회원가입</a>
 				</li>
 				</sec:authorize>
-				<sec:authorize access="isAuthenticated() ">
+				<sec:authorize access="hasAuthority('admin')">
 				<li class="nav-item">
 					<a class="nav-link ${current eq 'memberList' ? 'active' : '' }" href="/member/list">회원목록</a>
 				</li>

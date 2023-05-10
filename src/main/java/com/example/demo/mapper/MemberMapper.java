@@ -23,10 +23,11 @@ public interface MemberMapper {
 	List<Member> selectAll();
 
 	@Select("""
-			SELECT * 
-			FROM Member
+			SELECT *
+			FROM Member m LEFT JOIN MemberAuthority ma ON m.id = ma.memberId
 			WHERE id = #{id}
 			""")
+	@ResultMap("memberMap")
 	Member selectById(String id);
 
 	@Delete("""
