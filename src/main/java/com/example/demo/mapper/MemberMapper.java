@@ -8,7 +8,7 @@ import com.example.demo.domain.*;
 
 @Mapper
 public interface MemberMapper {
-	
+
 	@Insert("""
 			INSERT INTO Member (id, password, nickName, email)
 			VALUES (#{id}, #{password}, #{nickName}, #{email})
@@ -16,7 +16,7 @@ public interface MemberMapper {
 	int insert(Member member);
 
 	@Select("""
-			SELECT * 
+			SELECT *
 			FROM Member
 			ORDER BY inserted DESC
 			""")
@@ -60,4 +60,11 @@ public interface MemberMapper {
 			WHERE nickName = #{nickName}
 			""")
 	Member selectByNickName(String nickName);
+
+	@Select("""
+			SELECT * 
+			FROM Member
+			WHERE email = #{email}
+			""")
+	Member selectByEmail(String email);
 }
