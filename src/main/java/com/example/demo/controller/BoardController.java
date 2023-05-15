@@ -66,7 +66,7 @@ public class BoardController {
 	@PostMapping("/modify/{id}")
 	@PreAuthorize("isAuthenticated() and @customSecurityChecker.checkBoardWriter(authentication, #board.id)")
 	
-	// 수정하려는 게시물의 id : board.id
+	// 수정하려는 게시물 id : board.id
 	public String modifyProcess(Board board,
 			@RequestParam(value = "files", required = false) MultipartFile[] addFiles,
 			@RequestParam(value = "removeFiles", required = false) List<String> removeFileNames,
@@ -135,10 +135,10 @@ public class BoardController {
 	
 	@PostMapping("/like")
 	@ResponseBody
-	public Map<String, Object> like(@RequestBody Like like) {
-		System.out.println(like);
-		
-		return null;
-		
+	public Map<String, Object> like(
+			@RequestBody Like like,
+			Authentication authentication) {
+
+		return service.like(like, authentication);
 	}
 }

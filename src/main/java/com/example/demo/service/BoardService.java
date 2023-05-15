@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.core.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.web.multipart.*;
@@ -20,12 +21,15 @@ public class BoardService {
 
 	@Autowired
 	private S3Client s3;
-	
+
 	@Value("${aws.s3.bucketName}")
 	private String bucketName;
-	
+
 	@Autowired
 	private BoardMapper mapper;
+	
+	@Autowired
+	private BoardLikeMapper likeMapper;
 
 	public List<Board> listBoard() {
 		List<Board> list = mapper.selectAll();
@@ -37,42 +41,41 @@ public class BoardService {
 	}
 
 	public boolean modify(Board board, MultipartFile[] addFiles, List<String> removeFileNames) throws Exception {
-		
+
 		// FileName 테이블 삭제
 		if (removeFileNames != null && !removeFileNames.isEmpty()) {
 			for (String fileName : removeFileNames) {
-				// S3에서 파일(객체) 삭제
+				// s3에서 파일(객체) 삭제
 				String objectKey = "board/" + board.getId() + "/" + fileName;
 				DeleteObjectRequest dor = DeleteObjectRequest.builder()
 						.bucket(bucketName)
 						.key(objectKey)
 						.build();
 				s3.deleteObject(dor);
-				
+
 				// 테이블에서 삭제
 				mapper.deleteFileNameByBoardIdAndFileName(board.getId(), fileName);
 			}
 		}
-		
-		// 새 파일 추가
-				for (MultipartFile newFile : addFiles) {
-					if (newFile.getSize() > 0) {
-						// 테이블에 파일명 추가
-						mapper.insertFileName(board.getId(), newFile.getOriginalFilename());
 
-						// s3에 파일(객체) 업로드
-						String objectKey = "board/" + board.getId() + "/" + newFile.getOriginalFilename();
-						PutObjectRequest por = PutObjectRequest.builder()
-								.acl(ObjectCannedACL.PUBLIC_READ)
-								.bucket(bucketName)
-								.key(objectKey)
-								.build();
-						RequestBody rb = RequestBody.fromInputStream(newFile.getInputStream(), newFile.getSize());
-						s3.putObject(por, rb);
-					}
-				}
-		
-		
+		// 새 파일 추가
+		for (MultipartFile newFile : addFiles) {
+			if (newFile.getSize() > 0) {
+				// 테이블에 파일명 추가
+				mapper.insertFileName(board.getId(), newFile.getOriginalFilename());
+
+				// s3에 파일(객체) 업로드
+				String objectKey = "board/" + board.getId() + "/" + newFile.getOriginalFilename();
+				PutObjectRequest por = PutObjectRequest.builder()
+						.acl(ObjectCannedACL.PUBLIC_READ)
+						.bucket(bucketName)
+						.key(objectKey)
+						.build();
+				RequestBody rb = RequestBody.fromInputStream(newFile.getInputStream(), newFile.getSize());
+				s3.putObject(por, rb);
+			}
+		}
+
 		// 게시물(Board) 테이블 수정
 		int cnt = mapper.update(board);
 
@@ -80,13 +83,13 @@ public class BoardService {
 	}
 
 	public boolean remove(Integer id) {
-		
+
 		// 파일명 조회
 		List<String> fileNames = mapper.selectFileNamesByBoardId(id);
-		
+
 		// FileName 테이블의 데이터 지우기
 		mapper.deleteFileNameByBoardId(id);
-		
+
 		// s3 bucket의 파일(객체) 지우기
 		for (String fileName : fileNames) {
 			String objectKey = "board/" + id + "/" + fileName;
@@ -96,39 +99,38 @@ public class BoardService {
 					.build();
 			s3.deleteObject(dor);
 		}
-		
+
 		// 게시물 테이블의 데이터 지우기
 		int cnt = mapper.deleteById(id);
-		
-		
+
 		return cnt == 1;
 	}
 
 	public boolean addBoard(Board board, MultipartFile[] files) throws Exception {
 
 		// 게시물 insert
-				int cnt = mapper.insert(board);
+		int cnt = mapper.insert(board);
 
-				for (MultipartFile file : files) {
-					if (file.getSize() > 0) {
-						String objectKey = "board/" + board.getId() + "/" + file.getOriginalFilename();
-						
-						PutObjectRequest por = PutObjectRequest.builder()
-								.bucket(bucketName)
-								.key(objectKey)
-								.acl(ObjectCannedACL.PUBLIC_READ)
-								.build();
-						RequestBody rb = RequestBody.fromInputStream(file.getInputStream(), file.getSize());
-						
-						s3.putObject(por, rb);
-						
-						// db에 관련 정보 저장(insert)
-						mapper.insertFileName(board.getId(), file.getOriginalFilename());
-					}
-				}
-
-				return cnt == 1;
+		for (MultipartFile file : files) {
+			if (file.getSize() > 0) {
+				String objectKey = "board/" + board.getId() + "/" + file.getOriginalFilename();
+				
+				PutObjectRequest por = PutObjectRequest.builder()
+						.bucket(bucketName)
+						.key(objectKey)
+						.acl(ObjectCannedACL.PUBLIC_READ)
+						.build();
+				RequestBody rb = RequestBody.fromInputStream(file.getInputStream(), file.getSize());
+				
+				s3.putObject(por, rb);
+				
+				// db에 관련 정보 저장(insert)
+				mapper.insertFileName(board.getId(), file.getOriginalFilename());
 			}
+		}
+
+		return cnt == 1;
+	}
 
 	public Map<String, Object> listBoard(Integer page, String search, String type) {
 		// 페이지당 행의 수
@@ -172,5 +174,21 @@ public class BoardService {
 			remove(id);
 		}
 		
+	}
+
+	public Map<String, Object> like(Like like, Authentication authentication) {
+		Map<String, Object> result = new HashMap<>();
+		
+		result.put("like", false);
+		
+		like.setMemberId(authentication.getName());
+		Integer deleteCnt = likeMapper.delete(like);
+		
+		if (deleteCnt != 1) {
+			Integer insertCnt = likeMapper.insert(like);
+			result.put("like", true);
+		}
+		
+		return result;
 	}
 }
