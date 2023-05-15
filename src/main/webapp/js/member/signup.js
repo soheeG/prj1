@@ -1,3 +1,22 @@
+// 별명 중복확인 버튼이 클리되면
+$("#checkNickNameBtn").click(function() {
+	const nickName = $("#inputNickName").val();
+	
+	$.ajax("/member/checkNickName/" + nickName, {
+		success: function(data) {
+			`{"available" : true}`
+			
+			if (data.available) {
+				$("#availableNickNameMessage").removeClass("d-none");
+				$("notAvailableNickNameMessage").addCalss("d-none");
+			} else {
+				$("#availableNickNameMessage").addClass("d-none");
+				$("notAvailableNickNameMessage").removedCalss("d-none");
+			}
+		}
+	})
+})
+
 // id 중복확인 버튼이 클릭되면
 $("#checkIdBtn").click(function() {
 	const userId = $("#inputId").val();
