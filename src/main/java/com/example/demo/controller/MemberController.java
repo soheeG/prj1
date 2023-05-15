@@ -108,4 +108,11 @@ public class MemberController {
 			return "redirect:/member/modify?id=" + member.getId();
 		}
 	}
+	
+	@GetMapping("checkId/{id}")
+	@ResponseBody
+	public Map<String, Object> checkId(@PathVariable("id") String id) {
+	
+		return service.checkId(id);
+	}
 }
