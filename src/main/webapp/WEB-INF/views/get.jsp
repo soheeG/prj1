@@ -16,17 +16,17 @@
 	<my:navBar></my:navBar>
 
 	<my:alert></my:alert>
-	
-	<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
-  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      
-    </div>
-  </div>
-</div>
+
+	<!-- toast -->
+	<div class="toast-container top-0 start-50 translate-middle-x p-3">
+		<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast-header">
+				<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+			</div>
+			<div class="toast-body"></div>
+		</div>
+	</div>
+
 
 	<div class="container-lg">
 
@@ -34,24 +34,29 @@
 		<div class="row justify-content-center">
 			<div class="col-12 col-md-8 col-lg-6">
 				<h1>
-				<span id="boardIdText">
-					${board.id }
-				</span>
-				번게시물</h1>
-				
+					<span id="boardIdText"> ${board.id } </span>
+					번게시물
+				</h1>
+
 				<div>
-					
+
 					<h1>
-					<span id="likeIcon">
-						<i class="fa-regular fa-heart"></i>
-					</span>
-					<span id="likeNumber">
-						${board.likeCount }
-					</span>
+						<span id="likeIcon">
+							<c:if test="${board.liked }">
+								<i class="fa-solid fa-heart"></i>
+							</c:if>
+							
+							<c:if test="${not board.liked }">
+								<i class="fa-regular fa-heart"></i>
+							</c:if>
+						</span>
+						<span id="likeNumber">
+							${board.likeCount }
+						</span>
 					</h1>
 				</div>
-				
-				
+
+
 				<div>
 					<div class="mb-3">
 						<label for="" class="form-label">제목</label>

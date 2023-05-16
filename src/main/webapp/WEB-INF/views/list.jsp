@@ -19,12 +19,12 @@
 	<div class="container-lg">
 		<h1>게시물 목록</h1>
 		<!-- table.table>thead>tr>th*4^^tbody -->
-		<!-- 새로 작성된 코드 변경된 코드 -->
+		<!-- 새로작성된 코드 변경된 코드!!!  -->
 		<table class="table">
 			<thead>
 				<tr>
 					<th>#</th>
-					<i class="fa-duotone fa-heart"></i>
+					<th><i class="fa-solid fa-heart"></i></th>
 					<th>제목</th>
 					<th>작성자</th>
 					<th>작성일시</th>
