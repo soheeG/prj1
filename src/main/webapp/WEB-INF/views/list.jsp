@@ -39,12 +39,15 @@
 							<a href="/id/${board.id }"> ${board.title } </a>
 							
 							<c:if test="${board.fileCount > 0 }">
-								<span class="badge rounded-pill text-bg-info">
-									<i class="fa-regular fa-images"></i>
-									${board.fileCount }
+								<span class="badge rounded-pill text-bg-info"> 
+									<i class="fa-regular fa-images"></i> ${board.fileCount }
+								</span>
+							</c:if> <c:if test="${board.commentCount > 0 }">
+								<span class="badge rounded-pill text-bg-dark"> 
+									<i class="fa-regular fa-comments"></i> ${board.commentCount }
 								</span>
 							</c:if>
-							
+
 						</td>
 						<td>${board.writer }</td>
 						<td>${board.inserted }</td>
