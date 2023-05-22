@@ -47,18 +47,22 @@ function listComment() {
 				const editButtons = `
 					<button 
 						id="commentDeleteBtn${comment.id}" 
-						class="commentDeleteButton" 
+						class="commentDeleteButton btn-danger" 
 						data-comment-id="${comment.id}">삭제</button>
-					:
 					<button
 						id="commentUpdateBtn${comment.id}"
-						class="commentUpdateButton"
+						class="commentUpdateButton btn-secondary"
 						data-comment-id="${comment.id}">수정</button>
 				`;
 				
 				// console.log(comment);
 				$("#commentListContainer").append(`
-					<div>
+					<li class="list-group-item d-flex justify-content-between align-item>
+						<div class="ms-2 me-auto">
+							<div>${comment.memverId}</div>
+							${comment.content}
+						</div>
+						<span
 						${comment.editable ? editButtons : ''}
 						: ${comment.content} 
 						: ${comment.memberId} 
