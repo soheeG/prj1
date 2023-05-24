@@ -26,6 +26,9 @@ public class MemberService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private CommentMapper commentMapper;
 
 	public boolean signup(Member member) {
 		
@@ -53,6 +56,9 @@ public class MemberService {
 		
 		if (passwordEncoder.matches(member.getPassword(), oldMember.getPassword())) {
 			// 암호가 같으면?
+			
+			// 이 회원이 작성한 댓글 삭제
+			commentMapper.deleteByMemberId(member.getId());
 			
 			// 이 회원이 작성한 게시물 row 삭제
 			boardService.removeByWriter(member.getId());
